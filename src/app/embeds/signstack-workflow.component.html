@@ -1,0 +1,38 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Workflow</h2>
+    <span class="tag">signstack-workflow</span>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <label for="workflow-id">Workflow ID</label>
+      <input
+        id="workflow-id"
+        [ngModel]="workflowId()"
+        (ngModelChange)="workflowId.set($event)"
+      />
+    </div>
+  </div>
+  <div class="panel-footer">
+    <div class="actions">
+      <button class="btn btn-primary" [disabled]="!workflowId()" (click)="load()">Load workflow</button>
+      <button class="btn btn-ghost" (click)="reset()">Reset</button>
+    </div>
+    @if (status().message) {
+      <div class="status" [class.error]="status().error">
+        <span class="material-icons-outlined">{{ status().error ? 'error' : 'check_circle' }}</span>
+        {{ status().message }}
+      </div>
+    }
+  </div>
+</section>
+
+<div class="embed-area">
+  @if (loaded(); as l) {
+    <signstack-workflow
+      [attr.embed-token]="l.embedToken"
+    ></signstack-workflow>
+  } @else {
+    <p class="embed-placeholder">Component will render here once loaded.</p>
+  }
+</div>

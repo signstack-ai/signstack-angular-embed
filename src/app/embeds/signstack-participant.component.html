@@ -1,0 +1,61 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Participant</h2>
+    <span class="tag">signstack-participant</span>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <label for="signing-workflow-id">Workflow ID</label>
+      <input
+        id="signing-workflow-id"
+        [ngModel]="workflowId()"
+        (ngModelChange)="workflowId.set($event)"
+      />
+    </div>
+    <div class="row">
+      <label for="signing-step-key">Step key</label>
+      <input
+        id="signing-step-key"
+        [ngModel]="stepKey()"
+        (ngModelChange)="stepKey.set($event)"
+        placeholder="e.g. customer_sign"
+      />
+    </div>
+    @if (lastEvent()) {
+      <div class="event-row">Event: <code>{{ lastEvent() }}</code></div>
+    }
+  </div>
+  <div class="panel-footer">
+    <div class="actions">
+      <button
+        class="btn btn-primary"
+        [disabled]="!workflowId() || !stepKey()"
+        (click)="load()"
+      >
+        Start signing session
+      </button>
+      <button class="btn btn-ghost" (click)="reset()">Reset</button>
+    </div>
+    @if (status().message) {
+      <div class="status" [class.error]="status().error">
+        <span class="material-icons-outlined">{{ status().error ? 'error' : 'check_circle' }}</span>
+        {{ status().message }}
+      </div>
+    }
+  </div>
+</section>
+
+<div class="embed-area">
+  @if (loaded(); as l) {
+    <signstack-participant
+      [attr.embed-token]="l.embedToken"
+      (signed)="onWCEvent('signed', $event)"
+      (declined)="onWCEvent('declined', $event)"
+      (signingError)="onWCEvent('signingError', $event)"
+      (sessionExpired)="onWCEvent('sessionExpired', $event)"
+      (closed)="onWCEvent('closed', $event)"
+    ></signstack-participant>
+  } @else {
+    <p class="embed-placeholder">Component will render here once loaded.</p>
+  }
+</div>

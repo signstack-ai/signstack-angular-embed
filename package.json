@@ -1,0 +1,31 @@
+{
+  "name": "signstack-sample-angular",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "start": "ng serve --port 4300",
+    "build": "ng build",
+    "backend": "npm run dev --prefix backend",
+    "backend:start": "npm start --prefix backend",
+    "backend:install": "npm install --prefix backend"
+  },
+  "dependencies": {
+    "@angular/common": "^21.2.9",
+    "@angular/compiler": "^21.2.9",
+    "@angular/core": "^21.2.9",
+    "@angular/forms": "^21.2.9",
+    "@angular/platform-browser": "^21.2.9",
+    "rxjs": "^7.8.2",
+    "tslib": "^2.8.1",
+    "zone.js": "^0.16.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^21.2.7",
+    "@angular/cli": "^21.2.7",
+    "@angular/compiler-cli": "^21.2.9",
+    "typescript": "~6.0.3"
+  }
+}

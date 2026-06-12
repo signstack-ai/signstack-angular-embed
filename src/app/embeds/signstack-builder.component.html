@@ -1,0 +1,66 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Builder</h2>
+    <span class="tag">signstack-builder</span>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <label for="editor-resource-key">Resource key</label>
+      <input
+        id="editor-resource-key"
+        [ngModel]="resourceKey()"
+        (ngModelChange)="resourceKey.set($event)"
+        class="mono"
+      />
+    </div>
+    <div class="row">
+      <label for="editor-resource-kind">Resource kind</label>
+      <select
+        id="editor-resource-kind"
+        [ngModel]="resourceKind()"
+        (ngModelChange)="resourceKind.set($event)"
+      >
+        @for (k of resourceKinds; track k) {
+          <option [value]="k">{{ k }}</option>
+        }
+      </select>
+    </div>
+    <div class="row">
+      <label for="editor-version">Version</label>
+      <input
+        id="editor-version"
+        [ngModel]="version()"
+        (ngModelChange)="version.set($event)"
+        placeholder="optional — defaults to draft"
+      />
+    </div>
+    @if (lastEvent()) {
+      <div class="event-row">Event: <code>{{ lastEvent() }}</code></div>
+    }
+  </div>
+  <div class="panel-footer">
+    <div class="actions">
+      <button class="btn btn-primary" [disabled]="!resourceKey()" (click)="load()">Load editor</button>
+      <button class="btn btn-ghost" (click)="reset()">Reset</button>
+    </div>
+    @if (status().message) {
+      <div class="status" [class.error]="status().error">
+        <span class="material-icons-outlined">{{ status().error ? 'error' : 'check_circle' }}</span>
+        {{ status().message }}
+      </div>
+    }
+  </div>
+</section>
+
+<div class="embed-area">
+  @if (loaded(); as l) {
+    <signstack-builder
+      [attr.embed-token]="l.embedToken"
+      (saved)="onWCEvent('saved', $event)"
+      (published)="onWCEvent('published', $event)"
+      (error)="onWCEvent('error', $event)"
+    ></signstack-builder>
+  } @else {
+    <p class="embed-placeholder">Component will render here once loaded.</p>
+  }
+</div>

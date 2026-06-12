@@ -1,0 +1,27 @@
+<header class="page-header">
+  <div class="logo" aria-hidden="true">
+    <span class="material-icons-outlined">description</span>
+  </div>
+  <div>
+    <h1>SignStack Web Components — Angular</h1>
+    <p class="subtitle">Paste a workflow or resource, mint an embed token, mount the component.</p>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button [class.active]="tab() === 'builder'" (click)="tab.set('builder')">Builder</button>
+  <button [class.active]="tab() === 'workflow'" (click)="tab.set('workflow')">Workflow</button>
+  <button [class.active]="tab() === 'participant'" (click)="tab.set('participant')">Participant</button>
+</nav>
+
+@switch (tab()) {
+  @case ('builder') {
+    <app-signstack-builder />
+  }
+  @case ('workflow') {
+    <app-signstack-workflow />
+  }
+  @case ('participant') {
+    <app-signstack-participant />
+  }
+}
